@@ -1,7 +1,7 @@
 # BF2SPL
 
 ## About
-This project does the less-than-deterministic translation of the famous esolang 
+Translator from 
 [brainf*ck](https://esolangs.org/wiki/Brainfuck) to [Shakespeare Programming Language](https://esolangs.org/wiki/Shakespeare)
 
 ## Modes
