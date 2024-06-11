@@ -29,3 +29,13 @@ You must create a `openai-key.private` file in the root directory, with the api 
 ```sh
 python bf2spl.py ai < input_bf.b
 ```
+
+## Specifications
+
+### BF
+- EOF returns 0
+- Cells must be 1 unsigned byte (max value 255)
+- Number of cells is constrained by stack depth of SPL 
+
+### SPL
+Word lists coming soon :)
