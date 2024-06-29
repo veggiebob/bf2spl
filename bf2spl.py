@@ -143,6 +143,9 @@ class Play:
                 self.jumps[og_idx] = i
                 bracket_depth[i] = len(start_bracket_idx)
 
+        if len(start_bracket_idx) > 0:
+            raise Exception("Unmatched '['!")
+
         # finally establish acts and scenes
         dests = sorted(self.jumps.values())
         act = 2  # introductions happen in Act I
