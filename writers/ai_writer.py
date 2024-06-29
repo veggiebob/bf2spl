@@ -1,6 +1,7 @@
 import os
 
-import openai
+from openai import OpenAI
+
 import json
 import requests
 import datetime
@@ -9,7 +10,7 @@ from util import roman_numeral
 from writers.writer import SPL_Writer
 
 OPENAI_KEY = open('openai-key.private', 'r').readline()
-openai.api_key = OPENAI_KEY
+client = OpenAI(api_key=OPENAI_KEY)
 
 M_USER = lambda x: {'role':'user', 'content':x}
 M_SYS = lambda x: {'role':'system', 'content':x}
@@ -65,12 +66,10 @@ def ask_spl(query, context: str='[No content yet]', instructions=SPL_SYS_MSG, pr
             M_SYS(instructions),
             M_USER(prompt.replace('CONTEXT', context) + query),
         ]
-    response = openai.ChatCompletion.create(
-        *args,
-        model='gpt-3.5-turbo',
-        messages=my_messages,
-        **kwargs
-    )
+    response = client.chat.completions.create(*args,
+    model='gpt-3.5-turbo',
+    messages=my_messages,
+    **kwargs)
     output = ''.join(response.choices[0].message.content)
     output_og = output
     args = []
@@ -83,11 +82,9 @@ def ask_spl(query, context: str='[No content yet]', instructions=SPL_SYS_MSG, pr
 
 def clarify(previous_response: AIResponse, message: str, **kwargs) -> AIResponse:
     all_messages = previous_response.messages + [M_USER(message)]
-    response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=all_messages,
-        **kwargs
-    )
+    response = client.chat.completions.create(model='gpt-3.5-turbo',
+    messages=all_messages,
+    **kwargs)
     output = ''.join(response.choices[0].message.content)
     output_og = output
     args = []
@@ -99,13 +96,11 @@ def clarify(previous_response: AIResponse, message: str, **kwargs) -> AIResponse
     return AIResponse(output_og, tuple(args), all_messages, response)
 
 def ask_raw(user_msg: str, **kwargs) -> str:
-    response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=[
-            M_USER(user_msg)
-        ],
-        **kwargs
-    )
+    response = client.chat.completions.create(model='gpt-3.5-turbo',
+    messages=[
+        M_USER(user_msg)
+    ],
+    **kwargs)
     return ''.join(response.choices[0].message.content)
 
 
