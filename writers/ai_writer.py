@@ -9,7 +9,7 @@ import datetime
 from util import roman_numeral
 from writers.writer import SPL_Writer
 
-OPENAI_KEY = open('openai-key.private', 'r').readline()
+OPENAI_KEY = open('openai-key.private', 'r').readline().strip()
 client = OpenAI(api_key=OPENAI_KEY)
 
 M_USER = lambda x: {'role':'user', 'content':x}
