@@ -10,5 +10,5 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 (
 cd $SCRIPT_DIR
-$PYTHON_EXEC bf2spl.py "$1"
+$PYTHON_EXEC bf2spl.py "$1" < /dev/stdin &> /dev/stdout
 )
